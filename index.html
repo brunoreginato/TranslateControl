@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
+		<script src="TranslateControl.js"></script>
+
+		<!--Controllers-->
+		<script src="TranslateController.js"></script>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="TransferControl.css">
+
+	</head>
+	<body ng-app="TranslateControl" ng-controller="TranslateController">
+		<header>
+			<h1>Translate Control</h1>
+		</header>
+
+		<section>
+			<p>Upload your .json file with existent keys</p>
+			<input type="file" file-model="jsonFile">
+			<button class="btn btn-default" ng-click="addNewJsonKey()">Load</button>
+		</section>
+
+		<section class="table-content">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th ng-repeat="collumn in collumns">
+							<input type="text" value="{{collumn}}">
+						</th>
+
+						<th>
+							<input type="text" placeholder="New language" ng-model="newLanguage">
+							<button class="btn btn-default" ng-click="addNewLanguage()" ng-show="newLanguage != ''">Save</button>
+						</th>
+					</tr>
+				</thead>
+
+				<tr ng-repeat="term in terms">
+					<td ng-repeat="collumn in collumns">
+						<input type="text" value="{{term[collumn]}}" ng-model="term[collumn]">
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<input type="text" placeholder="New key" ng-model="newKey">
+						<button class="btn btn-default" ng-click="addNewKey()" ng-show="newKey != ''">Save</button>
+					</td>
+				</tr>
+			</table>
+		</section>
+	</body>
+</html>
