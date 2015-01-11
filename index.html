@@ -1,14 +1,17 @@
 <html>
 	<head>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
-		<script src="TranslateControl.js"></script>
+
+		<!--Modules-->
+		<script src="js/TranslateControl.js"></script>
 
 		<!--Controllers-->
-		<script src="TranslateController.js"></script>
+		<script src="js/Controllers/TranslateController.js"></script>
 
+		<!--Styles-->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-		<link rel="stylesheet" href="TransferControl.css">
+		<link rel="stylesheet" href="style/TranslateControl.css">
 
 	</head>
 	<body ng-app="TranslateControl" ng-controller="TranslateController">
@@ -16,10 +19,23 @@
 			<h1>Translate Control</h1>
 		</header>
 
-		<section>
-			<p>Upload your .json file with existent keys</p>
-			<input type="file" file-model="jsonFile">
-			<button class="btn btn-default" ng-click="addNewJsonKey()">Load</button>
+		<section class="parametrization-content">
+			<p>Paste your JSON file</p>
+			<textarea ng-model="jsonInput"></textarea>
+			
+			<div class="language-choose-content" ng-show="jsonInput != '' ">
+				<p>Choose the language of this JSON</p>
+
+				<label ng-repeat="language in collumns">
+					<input type="radio" value="{{language}}" name="language" ng-model="$parent.inputJsonLanguage"> 
+					{{language}}
+				</label>
+
+
+				{{inputJsonLanguage}}
+			</div>
+
+			<button class="btn btn-default" ng-click="addNewJsonKeys()" ng-show="jsonInput != ''">Add keys to {{inputJsonLanguage}}</button>
 		</section>
 
 		<section class="table-content">
