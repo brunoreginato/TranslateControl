@@ -1,41 +1,53 @@
-TranslateControl.controller("TranslateController",["$scope",function($scope){
-	$scope.terms = { "pt-br":{"casa":"casa","carro":"carro"},
-				    "eng-us":{"casa":"house","carro":"car"}
-				   };
+TranslateControl.controller("TranslateController",["$scope","TranslateControlCore","TranslateControlConstraints",function($scope,TranslateControlCore,TranslateControlConstraints){
+	$scope.terms = TranslateControlCore.languages;
+	$scope.motherLanguage = TranslateControlCore.motherLanguageName;
 
 	$scope.newKey = "";
 	$scope.newLanguage = "";
 	$scope.inputJsonLanguage = "";
 	$scope.jsonInput = "";
-	$scope.motherLanguage = "";
+	
 
 	$scope.setMotherLanguage = function(language){
+		TranslateControlCore.motherLanguageName = language;
 		$scope.motherLanguage = language;
 	}
 
 	$scope.addNewKey = function addNewKey(){
-		if(!keyExists($scope.newKey))
-		{
-			for (var key in json) {
-				 $scope.terms[key][$scope.newLanguage] = "";
-			};
+		switch(TranslateControlCore.addKey($scope.newKey)){
+			case TranslateControlConstraints.status.OK:
+				$scope.newKey = "";
+				console.log("[ADD KEY] Key added successfully");
+			break;
 
-			$scope.newKey = "";
-		}
-		else{
-			console.log("[ADD NEW KEY] This key already exists");
+			case TranslateControlConstraints.status.NOK:
+				console.log("[ADD KEY] Error on add key");
+			break;
+
+			case TranslateControlConstraints.keyOperationsStatus.KEY_EXISTS:
+				console.log("[ADD KEY] The key already exists");
+			break;
 		}
 	};
 
 	$scope.addNewLanguage = function (){
-		//this operation might be on the service that handles all Data operations
-		$scope.terms[$scope.newLanguage] = copyJson($scope.terms[$scope.motherLanguage]);
+		switch(TranslateControlCore.addNewLanguage($scope.newLanguage)){
+			case TranslateControlConstraints.status.OK:
+				$scope.newLanguage = "";
+				console.log("[ADD LANGUAGE] Language added successfully");
+			break;
 
-		$scope.newLanguage = "";
+			case TranslateControlConstraints.status.NOK:
+				console.log("[ADD LANGUAGE] Error on add language");
+			break;
+
+			case TranslateControlConstraints.languageOperationsStatus.LANGUAGE_EXISTS:
+				console.log("[ADD LANGUAGE] The language already exists");
+			break;
+		}
 	};
 
 	$scope.addNewJsonKeys = function () {
-		//this operation might be on the service that handles all Data operations
 		var json = JSON.parse($scope.jsonInput);
 
 		addDistinctJSONKeysToLanguage($scope.inputJsonLanguage,json);
@@ -55,18 +67,5 @@ TranslateControl.controller("TranslateController",["$scope",function($scope){
 				}
 			}
 		}
-	}
-
-	function keyExists(key){
-		//All the arrays must be the same number of keys
-		if($scope.terms.length > 0){
-			return $scope.terms[0].hasOwnProperty(key);
-		}
-
-		return false;
-	}
-
-	function copyJson(json){
-		return JSON.parse(JSON.stringify(json));
 	}
 }]);
