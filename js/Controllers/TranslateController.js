@@ -1,37 +1,35 @@
 TranslateControl.controller("TranslateController",["$scope",function($scope){
-	
-	$scope.collumns = ["key","pt-br","eng-us"]; 
-	$scope.terms = 	[	
-						{
-							"key":"casa",	
-							"pt-br":"casa",
-							"eng-us":"house"
-						},
-						{
-							"key":"carro",
-							"pt-br":"carro",
-							"eng-us":"car"
-						}
-					];
+	$scope.terms = { "pt-br":{"casa":"casa","carro":"carro"},
+				    "eng-us":{"casa":"house","carro":"car"}
+				   };
 
 	$scope.newKey = "";
 	$scope.newLanguage = "";
-	$scope.inputJsonLanguage = "key";
+	$scope.inputJsonLanguage = "";
 	$scope.jsonInput = "";
+	$scope.motherLanguage = "";
+
+	$scope.setMotherLanguage = function(language){
+		$scope.motherLanguage = language;
+	}
 
 	$scope.addNewKey = function addNewKey(){
-		$scope.terms.push(Term($scope.newKey));
-		$scope.newKey = "";
+		if(!keyExists($scope.newKey))
+		{
+			for (var key in json) {
+				 $scope.terms[key][$scope.newLanguage] = "";
+			};
+
+			$scope.newKey = "";
+		}
+		else{
+			console.log("[ADD NEW KEY] This key already exists");
+		}
 	};
 
 	$scope.addNewLanguage = function (){
 		//this operation might be on the service that handles all Data operations
-		$scope.collumns.push($scope.newLanguage);
-
-		//updating all objects to have one more language
-		for (var i = 0; i < $scope.terms.length; i++) {
-			 $scope.terms[i][$scope.newLanguage] = "";
-		};
+		$scope.terms[$scope.newLanguage] = copyJson($scope.terms[$scope.motherLanguage]);
 
 		$scope.newLanguage = "";
 	};
@@ -43,45 +41,32 @@ TranslateControl.controller("TranslateController",["$scope",function($scope){
 		addDistinctJSONKeysToLanguage($scope.inputJsonLanguage,json);
 	};
 
-	//Constructor 
-	//TODO: Convert this in a Model
-	function Term(key){
-		var Term = {};
-
-		for (var i = 0; i < $scope.collumns.length; i++) {
-			Term[$scope.collumns[i]] = "";
-		};
-
-		Term["key"] = key;
-
-		return Term;
-	}
-
+	//the methods above must be in a service
 	function addDistinctJSONKeysToLanguage(language,json){
 		for (var key in json) {
-			var keyExists = false;
+			//we update/add the new language value for this key
+			$scope.terms[language][key] = json[key];
 
-			for (var i = 0; i < $scope.terms.length; i++) {
-				//exists a key in terms
-				if($scope.terms[i].key === key){
-					keyExists = true;
-					console.log("[KEY] " + key);
-					console.log("[VALUE] " + json[key]);
-					//we update/add the new language value for this key
-					$scope.terms[i][language] = json[key];
+			//if this key doesn't exists on the other languages, we add it with the
+			// deafult value.
+			if(!$scope.terms.hasOwnProperty(key)) {
+				for (var language in $scope.terms) {
+					$scope.terms[language][key] = json[key];
 				}
 			}
-
-			if(!keyExists){
-				var newTerm = Term(key);
-				newTerm[language] = json[key];
-
-				$scope.terms.push(newTerm);
-
-				console.log("[NOT EXISTENT][KEY] " + key);
-				console.log("[NOT EXISTENT][LANG] " + language);
-				console.log("[NOT EXISTENT][VALUE] " + newTerm[language]);
-			}
 		}
+	}
+
+	function keyExists(key){
+		//All the arrays must be the same number of keys
+		if($scope.terms.length > 0){
+			return $scope.terms[0].hasOwnProperty(key);
+		}
+
+		return false;
+	}
+
+	function copyJson(json){
+		return JSON.parse(JSON.stringify(json));
 	}
 }]);

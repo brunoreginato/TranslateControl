@@ -22,17 +22,14 @@
 		<section class="parametrization-content">
 			<p>Paste your JSON file</p>
 			<textarea ng-model="jsonInput"></textarea>
-			
+
 			<div class="language-choose-content" ng-show="jsonInput != '' ">
 				<p>Choose the language of this JSON</p>
 
 				<label ng-repeat="language in collumns">
-					<input type="radio" value="{{language}}" name="language" ng-model="$parent.inputJsonLanguage"> 
+					<input type="radio" value="{{language}}" name="language" ng-model="$parent.inputJsonLanguage">
 					{{language}}
 				</label>
-
-
-				{{inputJsonLanguage}}
 			</div>
 
 			<button class="btn btn-default" ng-click="addNewJsonKeys()" ng-show="jsonInput != ''">Add keys to {{inputJsonLanguage}}</button>
@@ -42,8 +39,11 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th ng-repeat="collumn in collumns">
-							<input type="text" value="{{collumn}}">
+						<th>
+							keys
+						</th>
+						<th ng-repeat="(key,value) in terms" ng-class="(key == $parent.motherLanguage) ? 'bg-warning' : ''">
+							<div on-tap="$parent.setMotherLanguage(key)">{{key}}</div>
 						</th>
 
 						<th>
@@ -53,9 +53,12 @@
 					</tr>
 				</thead>
 
-				<tr ng-repeat="term in terms">
-					<td ng-repeat="collumn in collumns">
-						<input type="text" value="{{term[collumn]}}" ng-model="term[collumn]">
+				<tr ng-repeat="(key,value) in terms[motherLanguage]">
+					<td>
+						{{key}}
+					</td>
+					<td ng-repeat="term in terms">
+						<input type="text" value="{{term[key]}}" ng-model="term[key]">
 					</td>
 				</tr>
 
