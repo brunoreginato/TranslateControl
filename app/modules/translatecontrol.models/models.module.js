@@ -1,3 +1,3 @@
 (function(){
-  angular.module('translatecontrol.models');
+  angular.module('translatecontrol.models',[]);
 })()

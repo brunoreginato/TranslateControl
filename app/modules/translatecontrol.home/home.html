@@ -9,13 +9,18 @@
         <th ng-repeat="language in languages">
           {{::language.id}}
         </th>
+
+        <th>
+          <input type="text" ng-model="newLanguageName">
+          <div ng-click="addNewLanguage()">+</div>
+        </th>
       </thead>
       <tbody>
         <!-- First Line -->
         <tr>
           <td>
             <input type="text" ng-model="newTerm.key">
-            <span on-click="addNewTerm()">Add</span>
+            <div ng-click="addNewTerm()">+</div>
           </td>
 
           <td ng-repeat="language in languages">

@@ -16,10 +16,21 @@
       TranslateControlCoreObj.addLanguage = function(languageName){
         var language = new ModelsFactory.Language();
         language.id = languageName;
+        var indexOfLanguage = TranslateControlCoreObj.indexOfLanguage(language);
 
-        if(TranslateControlCoreObj.indexOfLanguage(language) === -1) {
+        if(indexOfLanguage === -1) {
+          //We create all terms based on the mother language
+          if(TranslateControlCoreObj.motherLanguage) {
+            language = angular.copy(TranslateControlCoreObj.motherLanguage);
+            language.id = languageName;
+          }
+
           TranslateControlCoreObj.languages.push(language);
+        } else {
+            language = TranslateControlCoreObj.languages[indexOfLanguage];
         }
+
+        return language;
       };
 
       TranslateControlCoreObj.removeLanguage = function(language) {

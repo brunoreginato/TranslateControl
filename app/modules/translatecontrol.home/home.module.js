@@ -1,3 +1,3 @@
 (function(){
-  angular.module('translatecontrol.home');
+  angular.module('translatecontrol.home',[]);
 })()

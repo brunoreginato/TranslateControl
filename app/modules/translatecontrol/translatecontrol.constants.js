@@ -1,6 +1,6 @@
 (function(){
   angular.module('translatecontrol')
-    .constants('TranslateControlConstants', {
-      
+    .constant('TranslateControlConstants', {
+
     });
 })()

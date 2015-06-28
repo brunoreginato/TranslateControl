@@ -1,6 +1,6 @@
 (function(){
   angular.module('translatecontrol.models')
-  .factory(ModelsFactory);
+  .factory('ModelsFactory',ModelsFactory);
 
   function ModelsFactory() {
       var ModelsFactoryObj = {};

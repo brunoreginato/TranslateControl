@@ -1,0 +1,28 @@
+{
+  "name": "TranslateControl",
+  "version": "1.0.0",
+  "description": "Controller of translation in a project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brunoreginato/TranslateControl.git"
+  },
+  "keywords": [
+    "translate",
+    "internacionalization",
+    "universal",
+    "apps"
+  ],
+  "author": "Bruno Reginato",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brunoreginato/TranslateControl/issues"
+  },
+  "homepage": "https://github.com/brunoreginato/TranslateControl",
+  "dependencies": {
+    "gulp": "^3.9.0"
+  }
+}
