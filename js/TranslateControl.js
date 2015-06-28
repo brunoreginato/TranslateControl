@@ -1,1 +1,0 @@
-var TranslateControl = angular.module("TranslateControl", []);

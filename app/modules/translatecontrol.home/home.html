@@ -1,0 +1,39 @@
+<div ng-controller="HomeController">
+  <section class="table-content">
+    <table>
+      <thead>
+        <th>
+          Keys
+        </th>
+
+        <th ng-repeat="language in languages">
+          {{::language.id}}
+        </th>
+      </thead>
+      <tbody>
+        <!-- First Line -->
+        <tr>
+          <td>
+            <input type="text" ng-model="newTerm.key">
+            <span on-click="addNewTerm()">Add</span>
+          </td>
+
+          <td ng-repeat="language in languages">
+
+          </td>
+        </tr>
+        <tr ng-repeat="key in getAllKeys()">
+          <!--Key-->
+          <td>
+            {{key}}
+          </td>
+
+          <!--Values of other languages-->
+          <td ng-repeat="language in languages">
+            {{language.terms[key]}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
