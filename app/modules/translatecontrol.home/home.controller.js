@@ -47,5 +47,9 @@
 
         return keys;
       };
+
+      $scope.updateTermWithValueOfLanguage = function(key, value, language) {
+
+      };
     }
 })()

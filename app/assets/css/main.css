@@ -1,0 +1,33 @@
+/* ========================================================= */
+/* ======================== GLOBALS ======================== */
+/* ========================================================= */
+md-input-container {
+    padding-bottom: 5px;
+}
+
+md-input-container label{
+    text-align: left;
+}
+
+/* ====================================================== */
+/* ======================== HOME ======================== */
+/* ====================================================== */
+.home table {
+    width: 100%;
+}
+
+.home table th {
+    border-bottom: 1px solid black;
+}
+
+.home table tr {
+    height: 44px;
+}
+
+.home table tr.even {
+    background-color: white;
+}
+
+.home table tr.odd {
+    background-color: #e8e8e8;
+}

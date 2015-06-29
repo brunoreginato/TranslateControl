@@ -1,5 +1,5 @@
-<div ng-controller="HomeController">
-  <section class="table-content">
+<div class="home" ng-controller="HomeController">
+  <section>
     <table>
       <thead>
         <th>
@@ -10,24 +10,43 @@
           {{::language.id}}
         </th>
 
-        <th>
-          <input type="text" ng-model="newLanguageName">
-          <div ng-click="addNewLanguage()">+</div>
+        <th layout="row">
+          <md-input-container>
+            <label>New Language ID</label>
+            <input type="text" ng-model="newLanguageName">
+          </md-input-container>
+          <md-button
+            class="md-fab md-mini"
+            aria-label="Confirm"
+            ng-click="addNewLanguage()"
+            ng-show="newLanguageName !== ''">√
+          </md-button>
         </th>
       </thead>
+
       <tbody>
         <!-- First Line -->
-        <tr>
+        <tr class="even">
           <td>
-            <input type="text" ng-model="newTerm.key">
-            <div ng-click="addNewTerm()">+</div>
+            <md-input-container>
+              <label>New Key</label>
+              <input type="text" ng-model="newTerm.key">
+            </md-input-container>
+            <input type="text">
+            <md-button
+              class="md-fab md-mini"
+              aria-label="Confirm"
+              ng-click="addNewTerm()"
+              ng-show="newTerm.key !== ''">√
+            </md-button>
           </td>
 
           <td ng-repeat="language in languages">
 
           </td>
         </tr>
-        <tr ng-repeat="key in getAllKeys()">
+
+        <tr ng-repeat="key in getAllKeys()" ng-class="$index %2 !== 0 ? 'even' : 'odd'">
           <!--Key-->
           <td>
             {{key}}
@@ -35,7 +54,16 @@
 
           <!--Values of other languages-->
           <td ng-repeat="language in languages">
-            {{language.terms[key]}}
+            <md-input-container>
+              <label>{{language.terms[key]}}</label>
+              <input type="text" ng-model="language.terms[key]">
+            </md-input-container>
+            <md-button
+              class="md-fab md-mini"
+              aria-label="Confirm"
+              ng-click="updateTermWithValueOfLanguage(key,language.terms[key],language)"
+              ng-show="language.terms[key] !== ''">√
+            </md-button>
           </td>
         </tr>
       </tbody>

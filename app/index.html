@@ -1,28 +1,42 @@
+<!DOCTYPE>
 <html>
 	<head>
+     <!-- Angular Material CSS now available via Google CDN; version 0.10 used here -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.css">
 
-    <!--AngularJS-->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
-
-    <!--Modules-->
-    <script src="modules/translatecontrol/translatecontrol.module.js"></script>
-    <script src="modules/translatecontrol.home/home.module.js"></script>
-    <script src="modules/translatecontrol.models/models.module.js"></script>
-
-    <!--Contorllers-->
-    <script src="modules/translatecontrol.home/home.controller.js"></script>
-
-    <!--Services-->
-    <script src="modules/translatecontrol/translatecontrol.constants.js"></script>
-    <script src="modules/translatecontrol/translatecontrol.service.js"></script>
-    <script src="modules/translatecontrol.models/models.factory.js"></script>
+    <link rel="stylesheet" href="assets/css/main.css">
 
 	</head>
-	<body ng-app="translatecontrol">
-		<header>
-			<h1>Translate Control</h1>
-		</header>
+	<body ng-app="translatecontrol" ng-controller="IndexController">
+		<md-toolbar layout="row" layout-align="center center">
+			<span>Translate Control</span>
+		</md-toolbar>
 
-    <div ng-include="'modules/translatecontrol.home/home.html'"></div>
+        <div ng-include="'modules/translatecontrol.home/home.html'"></div>
+
+        <!--AngularJS-->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+
+        <!-- Angular Material Dependencies -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
+
+        <!-- Angular Material Javascript now available via Google CDN; version 0.10 used here -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.js"></script>
+
+        <!--Modules-->
+        <script src="modules/translatecontrol/translatecontrol.module.js"></script>
+        <script src="modules/translatecontrol.home/home.module.js"></script>
+        <script src="modules/translatecontrol.models/models.module.js"></script>
+
+        <!--Contorllers-->
+        <script src="modules/translatecontrol.home/home.controller.js"></script>
+        <script src="modules/translatecontrol/index.controller.js"></script>
+
+        <!--Services-->
+        <script src="modules/translatecontrol/translatecontrol.constants.js"></script>
+        <script src="modules/translatecontrol/translatecontrol.service.js"></script>
+        <script src="modules/translatecontrol.models/models.factory.js"></script>
+
 	</body>
 </html>

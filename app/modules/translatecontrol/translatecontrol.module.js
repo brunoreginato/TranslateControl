@@ -1,3 +1,3 @@
 (function(){
-  angular.module('translatecontrol',['translatecontrol.home','translatecontrol.models']);
+  angular.module('translatecontrol',['ngMaterial','translatecontrol.home','translatecontrol.models']);
 })()
