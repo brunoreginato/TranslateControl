@@ -1,4 +1,15 @@
 <div class="home" ng-controller="HomeController">
+  <!-- Filters -->
+  <section>
+    <h3>Import keys</h3>
+    <input type="text" ng-model="importLanguageName" placeholder="Type the name of the language...">
+    <input type="file" id="fileInput">
+
+    <h3>Proceed!</h3>
+    <input type="button" ng-click="importKeys()">
+  </section>
+
+  <!-- Table -->
   <section>
     <table>
       <thead>
@@ -6,7 +17,10 @@
           Keys
         </th>
 
-        <th ng-repeat="language in languages">
+        <th
+          ng-repeat="language in languages"
+          ng-class="language.id === motherLanguage.id ? 'selected' : ''"
+          ng-click="motherLanguage = language">
           {{::language.id}}
         </th>
 
@@ -32,7 +46,6 @@
               <label>New Key</label>
               <input type="text" ng-model="newTerm.key">
             </md-input-container>
-            <input type="text">
             <md-button
               class="md-fab md-mini"
               aria-label="Confirm"
@@ -55,7 +68,7 @@
           <!--Values of other languages-->
           <td ng-repeat="language in languages">
             <md-input-container>
-              <label>{{language.terms[key]}}</label>
+              <label ng-if="language.terms[key] === ''">{{key}}</label>
               <input type="text" ng-model="language.terms[key]">
             </md-input-container>
             <md-button

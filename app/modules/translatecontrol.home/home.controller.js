@@ -1,55 +1,85 @@
 (function(){
   angular.module('translatecontrol.home')
-    .controller('HomeController', HomeController);
+	.controller('HomeController', HomeController);
 
-    HomeController.$inject = ["$scope", "TranslateControlCore", "ModelsFactory"];
-    function HomeController($scope, TranslateControlCore, ModelsFactory) {
-      load();
+	HomeController.$inject = ["$scope", "TranslateControlCore", "ModelsFactory"];
+	function HomeController($scope, TranslateControlCore, ModelsFactory) {
+	  load();
 
-      function load() {
-          $scope.languages = TranslateControlCore.languages;
-          $scope.motherLanguage = TranslateControlCore.motherLanguage;
-          $scope.newTerm = new ModelsFactory.Term("","");
-          $scope.newLanguageName = "";
-      }
+	  function load() {
+		  $scope.languages = TranslateControlCore.languages;
+		  $scope.motherLanguage = TranslateControlCore.motherLanguage;
+		  $scope.newTerm = new ModelsFactory.Term("","");
+		  $scope.newLanguageName = "";
+	  }
 
-      $scope.addNewLanguage = function() {
-        var newLanguage = TranslateControlCore.addLanguage($scope.newLanguageName);
+	  $scope.addNewLanguage = function() {
+		TranslateControlCore.addLanguage($scope.newLanguageName);
+		$scope.newLanguageName = "";
+	  };
 
-        if(!TranslateControlCore.motherLanguage)
-          TranslateControlCore.motherLanguage = newLanguage;
+	  $scope.addNewTerm = function() {
 
-        $scope.newLanguageName = "";
-      };
+	  	addTermToAllLanguages($scope.newTerm)
+		$scope.newTerm.key = "";
+	  };
 
-      $scope.addNewTerm = function() {
-        //adding the new term for each language
-        for (var i = 0; i < $scope.languages.length; i++) {
-          $scope.languages[i].addTerm($scope.newTerm);
-        }
+	  function addTermToAllLanguages(term) {
+	  	//adding the new term for each language
+		for (var i = 0; i < $scope.languages.length; i++) {
+		  $scope.languages[i].addTerm(term);
+		}
+	  }
 
-        $scope.newTerm.key = "";
-      };
+	  $scope.getAllKeys = function() {
+		var keys = [];
 
-      $scope.getAllKeys = function() {
-        var keys = [];
+		if(TranslateControlCore.motherLanguage) {
+			for (var key in TranslateControlCore.motherLanguage.terms) {
+			  if (TranslateControlCore.motherLanguage.terms.hasOwnProperty(key)) {
+				keys.push(key);
+			  }
+			}
+		}
 
-        if(TranslateControlCore.motherLanguage) {
-            for (var key in TranslateControlCore.motherLanguage.terms) {
-              if (TranslateControlCore.motherLanguage.terms.hasOwnProperty(key)) {
-                keys.push(key);
-              }
-            }
-        }
+		//sorting
+		keys = keys.sort(function(a,b) {return a - b;});
 
-        //sorting
-        keys = keys.sort(function(a,b) {return a - b;});
+		return keys;
+	  };
 
-        return keys;
-      };
+	  $scope.updateTermWithValueOfLanguage = function(key, value, language) {
+		language.updateTerm(new ModelsFactory.Term(key,value));
+	  };
 
-      $scope.updateTermWithValueOfLanguage = function(key, value, language) {
+	  //IMPORTING DATA
+	  $scope.importKeys = function() {
+		var file = document.getElementById("fileInput").files[0];
+		var fileReader = new FileReader();
 
-      };
-    }
+		fileReader.onload = function(){
+			var jsonKeys = JSON.parse(fileReader.result);
+
+
+			//add new language
+			var newLanguage = TranslateControlCore.addLanguage($scope.importLanguageName);
+
+			//for each key in the resource
+			var value;
+			for (var key in jsonKeys){
+			    if (jsonKeys.hasOwnProperty(key)) {
+					value = jsonKeys[key];
+
+					addTermToAllLanguages(new ModelsFactory.Term(key,""));
+
+					//update the value of the keys, for the language
+					$scope.updateTermWithValueOfLanguage(key,value,newLanguage);
+			    }
+			}
+		};
+
+		fileReader.readAsText(file);
+	  };
+
+	}
 })()
